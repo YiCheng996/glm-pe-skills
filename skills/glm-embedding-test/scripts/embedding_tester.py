@@ -12,6 +12,42 @@ from zhipuai import ZhipuAI
 
 BATCH_SIZE = 25
 
+_REFERENCE_MODELS = {
+    "embedding": {
+        "desc": "向量化模型",
+        "models": [
+            ("embedding-3", "最新版，2048维，推荐"),
+            ("embedding-2", "上一代，1024维"),
+        ]
+    }
+}
+
+
+def list_models(api_key: str, category: str = "embedding") -> None:
+    """实时查询账号可用模型，并展示本 skill 的参考模型列表"""
+    import urllib.request as _req
+    print("=" * 55)
+    print("账号实时可用模型（来自 API）：")
+    try:
+        r = _req.Request("https://open.bigmodel.cn/api/paas/v4/models",
+                         headers={"Authorization": f"Bearer {api_key}"})
+        with _req.urlopen(r, timeout=8) as resp:
+            data = json.loads(resp.read())
+        ids = [m["id"] for m in data.get("data", [])]
+        for mid in ids:
+            print(f"  {mid}")
+        if not ids:
+            print("  （无数据，请检查 API Key）")
+    except Exception as e:
+        print(f"  ⚠ API 查询失败：{e}")
+    cat = _REFERENCE_MODELS.get(category, {})
+    if cat:
+        print(f"\n本 skill 参考模型（{cat['desc']}，以官网为准）：")
+        for mid, note in cat["models"]:
+            print(f"  {mid:<30} {note}")
+    print(f"\n  完整模型列表：https://open.bigmodel.cn/dev/api")
+    print("=" * 55)
+
 
 def call_embedding_api(texts, model, api_key):
     client = ZhipuAI(api_key=api_key)
@@ -56,12 +92,17 @@ def main():
     parser.add_argument("--output", type=str, default="./output")
     parser.add_argument("--api-key", type=str, default=None)
     parser.add_argument("--json-only", action="store_true")
+    parser.add_argument("--list-models", action="store_true", help="列出账号当前可用模型，然后退出")
     args = parser.parse_args()
 
     api_key = args.api_key or os.environ.get("ZHIPUAI_API_KEY")
     if not api_key:
         print("Error: API key required (--api-key or ZHIPUAI_API_KEY)", file=sys.stderr)
         sys.exit(1)
+
+    if args.list_models:
+        list_models(api_key, category="embedding")
+        sys.exit(0)
 
     texts2 = None
     if args.mode == "texts":

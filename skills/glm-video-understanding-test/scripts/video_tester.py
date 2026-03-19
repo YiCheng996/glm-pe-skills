@@ -43,6 +43,49 @@ except ImportError:
 
 # ── 工具函数 ──────────────────────────────────────────────────────────────────
 
+# 参考模型列表（内嵌，随 skill 版本更新；运行时通过 API 实时补充）
+_REFERENCE_MODELS = {
+    "video_understanding": {
+        "desc": "视频理解模型",
+        "models": [
+            ("glm-4.6v",        "旗舰版（106B），精度最高"),
+            ("glm-4.6v-flashx", "轻量高速版（9B），日常首选"),
+            ("glm-4.6v-flash",  "完全免费版"),
+        ]
+    }
+}
+
+
+def list_models(api_key: str, category: str = "video_understanding") -> None:
+    """实时查询账号可用模型，并展示本 skill 的参考模型列表"""
+    import urllib.request as _req
+
+    print("=" * 55)
+    print("账号实时可用模型（来自 API）：")
+    try:
+        r = _req.Request(
+            "https://open.bigmodel.cn/api/paas/v4/models",
+            headers={"Authorization": f"Bearer {api_key}"}
+        )
+        with _req.urlopen(r, timeout=8) as resp:
+            data = json.loads(resp.read())
+        ids = [m["id"] for m in data.get("data", [])]
+        for mid in ids:
+            print(f"  {mid}")
+        if not ids:
+            print("  （无数据，请检查 API Key）")
+    except Exception as e:
+        print(f"  ⚠ API 查询失败：{e}")
+
+    cat = _REFERENCE_MODELS.get(category, {})
+    if cat:
+        print(f"\n本 skill 参考模型（{cat['desc']}，以官网为准）：")
+        for mid, note in cat["models"]:
+            print(f"  {mid:<30} {note}")
+    print(f"\n  完整模型列表：https://open.bigmodel.cn/dev/api")
+    print("=" * 55)
+
+
 def resolve_api_key(cli_key: str) -> str:
     """
     按优先级获取 API Key：
@@ -325,8 +368,7 @@ def main():
     parser.add_argument("--folder",   required=True,  help="视频文件夹路径（支持递归子目录）")
     parser.add_argument("--prompt",   required=True,  help="发送给模型的提示词")
     parser.add_argument("--model",    default="glm-4.6v-flashx",
-                        choices=["glm-4.6v", "glm-4.6v-flashx", "glm-4.6v-flash"],
-                        help="视频理解模型（默认: glm-4.6v-flashx）")
+                        help="视频理解模型（默认: glm-4.6v-flashx）。运行 --list-models 查看当前可用模型列表")
     parser.add_argument("--count",    type=int, default=-1,
                         help="测试视频数量，-1 表示全部（默认: -1）")
     parser.add_argument("--output",   default="./output", help="结果输出目录（默认: ./output）")
@@ -338,6 +380,8 @@ def main():
                         help="并发请求数（默认: 1，即顺序执行；建议不超过 10）")
     parser.add_argument("--json-only", action="store_true",
                         help="只输出 JSON 结果，不打印进度（适合 agent 解析）")
+    parser.add_argument("--list-models", action="store_true",
+                        help="列出账号当前可用模型，然后退出")
 
     args = parser.parse_args()
 
@@ -347,6 +391,10 @@ def main():
                  "error": "未找到 API Key，请通过 --api-key 参数或环境变量 ZHIPUAI_API_KEY 提供"}
         print(json.dumps(error, ensure_ascii=False))
         sys.exit(1)
+
+    if args.list_models:
+        list_models(api_key, category="video_understanding")
+        sys.exit(0)
 
     verbose = not args.json_only
 

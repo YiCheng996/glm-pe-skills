@@ -36,6 +36,52 @@ except ImportError:
     sys.exit(1)
 
 
+_REFERENCE_MODELS = {
+    "text": {
+        "desc": "文本对话模型",
+        "models": [
+            ("glm-4.7",         "旗舰版"),
+            ("glm-4.6",         "旗舰版"),
+            ("glm-4.5",         "旗舰版"),
+            ("glm-4.5-air",     "轻量版"),
+            ("glm-4.5-airx",    "高速轻量版"),
+            ("glm-4.5-flash",   "免费版"),
+            ("glm-4.5-x",       "增强版"),
+            ("glm-4-plus",      "上一代旗舰"),
+            ("glm-4-flash",     "上一代免费版"),
+            ("glm-4-long",      "超长上下文"),
+            ("glm-zero-preview","推理模型预览版"),
+        ]
+    }
+}
+
+
+def list_models(api_key: str, category: str = "text") -> None:
+    """实时查询账号可用模型，并展示本 skill 的参考模型列表"""
+    import urllib.request as _req
+    print("=" * 55)
+    print("账号实时可用模型（来自 API）：")
+    try:
+        r = _req.Request("https://open.bigmodel.cn/api/paas/v4/models",
+                         headers={"Authorization": f"Bearer {api_key}"})
+        with _req.urlopen(r, timeout=8) as resp:
+            data = json.loads(resp.read())
+        ids = [m["id"] for m in data.get("data", [])]
+        for mid in ids:
+            print(f"  {mid}")
+        if not ids:
+            print("  （无数据，请检查 API Key）")
+    except Exception as e:
+        print(f"  ⚠ API 查询失败：{e}")
+    cat = _REFERENCE_MODELS.get(category, {})
+    if cat:
+        print(f"\n本 skill 参考模型（{cat['desc']}，以官网为准）：")
+        for mid, note in cat["models"]:
+            print(f"  {mid:<30} {note}")
+    print(f"\n  完整模型列表：https://open.bigmodel.cn/dev/api")
+    print("=" * 55)
+
+
 def resolve_api_key(cli_key: str) -> str:
     if cli_key:
         return cli_key
@@ -317,6 +363,7 @@ def main():
     parser.add_argument("--output", default="./output", help="输出目录")
     parser.add_argument("--api-key", default="")
     parser.add_argument("--json-only", action="store_true", help="只输出 JSON，不打印进度")
+    parser.add_argument("--list-models", action="store_true", help="列出账号当前可用模型，然后退出")
 
     args = parser.parse_args()
 
@@ -325,6 +372,10 @@ def main():
         err = {"success": False, "error": "未找到 API Key，请通过 --api-key 或环境变量 ZHIPUAI_API_KEY 提供"}
         print(json.dumps(err, ensure_ascii=False))
         sys.exit(1)
+
+    if args.list_models:
+        list_models(api_key, category="text")
+        sys.exit(0)
 
     prompt_template = args.prompt_template
     if args.mode == "file" and args.input_col:

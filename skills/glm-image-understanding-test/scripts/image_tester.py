@@ -39,6 +39,49 @@ except ImportError:
     sys.exit(1)
 
 
+_REFERENCE_MODELS = {
+    "vision": {
+        "desc": "图像理解模型",
+        "models": [
+            ("glm-4.7v",               "旗舰视觉版"),
+            ("glm-4.6v",               "旗舰视觉版"),
+            ("glm-4.5v",               "旗舰视觉版"),
+            ("glm-4.1v-thinking-flash", "推理视觉版"),
+            ("glm-4v-plus",            "上一代增强"),
+            ("glm-4v-flash",           "上一代免费版"),
+            ("glm-4v",                 "上一代标准版"),
+            ("glm-edge-v-nano",        "端侧轻量版"),
+        ]
+    }
+}
+
+
+def list_models(api_key: str, category: str = "vision") -> None:
+    """实时查询账号可用模型，并展示本 skill 的参考模型列表"""
+    import urllib.request as _req
+    print("=" * 55)
+    print("账号实时可用模型（来自 API）：")
+    try:
+        r = _req.Request("https://open.bigmodel.cn/api/paas/v4/models",
+                         headers={"Authorization": f"Bearer {api_key}"})
+        with _req.urlopen(r, timeout=8) as resp:
+            data = json.loads(resp.read())
+        ids = [m["id"] for m in data.get("data", [])]
+        for mid in ids:
+            print(f"  {mid}")
+        if not ids:
+            print("  （无数据，请检查 API Key）")
+    except Exception as e:
+        print(f"  ⚠ API 查询失败：{e}")
+    cat = _REFERENCE_MODELS.get(category, {})
+    if cat:
+        print(f"\n本 skill 参考模型（{cat['desc']}，以官网为准）：")
+        for mid, note in cat["models"]:
+            print(f"  {mid:<30} {note}")
+    print(f"\n  完整模型列表：https://open.bigmodel.cn/dev/api")
+    print("=" * 55)
+
+
 def resolve_api_key(cli_key: str) -> str:
     if cli_key:
         return cli_key
@@ -282,8 +325,7 @@ def main():
     parser.add_argument("--folder", required=True, help="图片文件夹路径（递归扫描）")
     parser.add_argument("--prompt", required=True, help="发送给模型的提问")
     parser.add_argument("--model", default="glm-4.5v",
-                        choices=["glm-4.7v", "glm-4.6v", "glm-4.5v", "glm-4v-plus", "glm-4v-flash"],
-                        help="模型（默认: glm-4.5v）")
+                        help="图像理解模型（默认: glm-4.5v）。运行 --list-models 查看当前可用模型列表")
     parser.add_argument("--system", default="", help="system prompt（可选）")
     parser.add_argument("--thinking-mode", default="disabled",
                         choices=["disabled", "enabled"],
@@ -296,6 +338,7 @@ def main():
     parser.add_argument("--output", default="./output", help="输出目录（默认: ./output）")
     parser.add_argument("--api-key", default="", help="API Key（可用 ZHIPUAI_API_KEY）")
     parser.add_argument("--json-only", action="store_true", help="只输出 JSON")
+    parser.add_argument("--list-models", action="store_true", help="列出账号当前可用模型，然后退出")
 
     args = parser.parse_args()
 
@@ -305,6 +348,10 @@ def main():
                  "error": "未找到 API Key，请通过 --api-key 或环境变量 ZHIPUAI_API_KEY 提供"}
         print(json.dumps(error, ensure_ascii=False))
         sys.exit(1)
+
+    if args.list_models:
+        list_models(api_key, category="vision")
+        sys.exit(0)
 
     verbose = not args.json_only
 

@@ -13,6 +13,45 @@ from openpyxl import Workbook
 from zhipuai import ZhipuAI
 
 
+_REFERENCE_MODELS = {
+    "image_generation": [
+        ("cogview-3-plus",  "文生图旗舰版，质量最高"),
+        ("cogview-3",       "文生图标准版"),
+        ("cogview-3-flash", "文生图高速版"),
+    ],
+    "video_generation": [
+        ("cogvideox",       "图/文生视频标准版"),
+        ("cogvideox-flash", "图/文生视频高速版，推荐"),
+    ]
+}
+
+
+def list_models(api_key: str, category: str = "image_generation") -> None:
+    """实时查询账号可用模型，并展示本 skill 的参考模型列表"""
+    import urllib.request as _req
+    print("=" * 55)
+    print("账号实时可用模型（来自 API）：")
+    try:
+        r = _req.Request("https://open.bigmodel.cn/api/paas/v4/models",
+                         headers={"Authorization": f"Bearer {api_key}"})
+        with _req.urlopen(r, timeout=8) as resp:
+            data = json.loads(resp.read())
+        ids = [m["id"] for m in data.get("data", [])]
+        for mid in ids:
+            print(f"  {mid}")
+        if not ids:
+            print("  （无数据，请检查 API Key）")
+    except Exception as e:
+        print(f"  ⚠ API 查询失败：{e}")
+    for cat_key, models in _REFERENCE_MODELS.items():
+        label = "文生图参考模型" if cat_key == "image_generation" else "视频生成参考模型"
+        print(f"\n{label}（以官网为准）：")
+        for mid, note in models:
+            print(f"  {mid:<30} {note}")
+    print(f"\n  完整模型列表：https://open.bigmodel.cn/dev/api")
+    print("=" * 55)
+
+
 def get_api_key(cli_key: str) -> str:
     """按优先级解析 API Key：CLI 参数 > ZHIPUAI_API_KEY > ZHIPUAI_API_KEY_PATH"""
     if cli_key:
@@ -175,13 +214,14 @@ def main():
     common = argparse.ArgumentParser(add_help=False)
     common.add_argument("--api-key", default="", help="智谱 API Key（可用 ZHIPUAI_API_KEY 环境变量）")
     common.add_argument("--json-only", action="store_true", help="仅输出 JSON，不打印进度")
+    common.add_argument("--list-models", action="store_true", help="列出账号当前可用模型，然后退出")
 
     parser = argparse.ArgumentParser(description="GLM 内容生成 CLI", parents=[common])
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     t2i = sub.add_parser("t2i", help="文生图（CogView）", parents=[common])
     t2i.add_argument("--prompt", help="图片描述提示词")
-    t2i.add_argument("--model", default="cogview-3-plus", choices=["cogview-3-plus", "cogview-3", "cogview-3-flash"])
+    t2i.add_argument("--model", default="cogview-3-plus", help="文生图模型（默认: cogview-3-plus）。运行 --list-models 查看当前可用模型")
     t2i.add_argument("--count", type=int, default=1)
     t2i.add_argument("--file", help="Excel/CSV 批量文件")
     t2i.add_argument("--col", default=None, help="批量时列名，默认第一列")
@@ -203,6 +243,14 @@ def main():
     t2v.set_defaults(func=cmd_t2v)
 
     args = parser.parse_args()
+
+    if getattr(args, "list_models", False):
+        api_key = get_api_key(getattr(args, "api_key", ""))
+        if not api_key:
+            raise SystemExit("需要 --api-key 或环境变量 ZHIPUAI_API_KEY")
+        list_models(api_key)
+        sys.exit(0)
+
     args.func(args)
 
 
