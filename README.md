@@ -1,7 +1,6 @@
 # GLM PE Skills
 
-> 智谱 AI GLM 系列模型的 **Cursor Agent Skills** 合集，专为探水、测评、批量分析场景设计。
-
+> 智谱 AI GLM 系列模型的 **Cursor Agent Skills** 合集
 [![GitHub stars](https://img.shields.io/github/stars/YiCheng996/glm-pe-skills?style=flat-square)](https://github.com/YiCheng996/glm-pe-skills/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 
