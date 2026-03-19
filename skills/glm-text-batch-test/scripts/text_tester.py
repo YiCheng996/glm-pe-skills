@@ -38,19 +38,25 @@ except ImportError:
 
 _REFERENCE_MODELS = {
     "text": {
-        "desc": "文本对话模型",
+        "desc": "文本对话 / 推理模型",
         "models": [
-            ("glm-4.7",         "旗舰版"),
-            ("glm-4.6",         "旗舰版"),
-            ("glm-4.5",         "旗舰版"),
-            ("glm-4.5-air",     "轻量版"),
-            ("glm-4.5-airx",    "高速轻量版"),
-            ("glm-4.5-flash",   "免费版"),
-            ("glm-4.5-x",       "增强版"),
-            ("glm-4-plus",      "上一代旗舰"),
-            ("glm-4-flash",     "上一代免费版"),
-            ("glm-4-long",      "超长上下文"),
-            ("glm-zero-preview","推理模型预览版"),
+            ("glm-5-turbo",            "旗舰 Agent，深度优化长链路任务"),
+            ("glm-5",                  "旗舰通用"),
+            ("glm-4.7",                "新旗舰，强推理"),
+            ("glm-4.5",                "旗舰（API 实测）"),
+            ("glm-4.5-air",            "高性价比（API 实测）"),
+            ("glm-4.7-flashx",         "高速低价"),
+            ("glm-4.7-flash",          "免费"),
+            ("glm-z1-air",             "推理模型，高性价比"),
+            ("glm-z1-airx",            "推理模型，极速"),
+            ("glm-z1-flashx",          "推理模型，高速低价"),
+            ("glm-z1-flash",           "推理模型，免费"),
+            ("glm-4-plus",             "上一代旗舰，128K"),
+            ("glm-4-air-250414",       "上一代高性价比，128K"),
+            ("glm-4-airx",             "上一代极速，8K"),
+            ("glm-4-long",             "超长输入，1M 上下文"),
+            ("glm-4-flash-250414",     "上一代免费，128K"),
+            ("glm-experimental-preview","最新公测模型"),
         ]
     }
 }

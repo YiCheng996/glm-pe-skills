@@ -46,11 +46,13 @@ except ImportError:
 # 参考模型列表（内嵌，随 skill 版本更新；运行时通过 API 实时补充）
 _REFERENCE_MODELS = {
     "video_understanding": {
-        "desc": "视频理解模型",
+        "desc": "视频理解模型（均属视觉模型，支持图片+视频输入）",
         "models": [
-            ("glm-4.6v",        "旗舰版（106B），精度最高"),
-            ("glm-4.6v-flashx", "轻量高速版（9B），日常首选"),
-            ("glm-4.6v-flash",  "完全免费版"),
+            ("glm-4.6v",                 "旗舰版，128K，精度最高"),
+            ("glm-4.6v-flashx",          "轻量高速版，128K，日常首选"),
+            ("glm-4.6v-flash",           "免费版"),
+            ("glm-4.5v",                 "上一代旗舰，64K"),
+            ("glm-4.1v-thinking-flash",  "视觉推理版，64K，免费"),
         ]
     }
 }

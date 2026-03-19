@@ -41,16 +41,17 @@ except ImportError:
 
 _REFERENCE_MODELS = {
     "vision": {
-        "desc": "图像理解模型",
+        "desc": "图像 / 视频理解模型（支持图片+视频输入）",
         "models": [
-            ("glm-4.7v",               "旗舰视觉版"),
-            ("glm-4.6v",               "旗舰视觉版"),
-            ("glm-4.5v",               "旗舰视觉版"),
-            ("glm-4.1v-thinking-flash", "推理视觉版"),
-            ("glm-4v-plus",            "上一代增强"),
-            ("glm-4v-flash",           "上一代免费版"),
-            ("glm-4v",                 "上一代标准版"),
-            ("glm-edge-v-nano",        "端侧轻量版"),
+            ("glm-4.6v",                 "旗舰视觉版，128K，图片+视频"),
+            ("glm-4.6v-flashx",          "轻量高速，128K，图片+视频"),
+            ("glm-4.6v-flash",           "免费，图片+视频"),
+            ("glm-4.5v",                 "上一代旗舰，64K，图片+视频"),
+            ("glm-4.1v-thinking-flashx", "视觉推理，64K，2元/M"),
+            ("glm-4.1v-thinking-flash",  "视觉推理，64K，免费"),
+            ("glm-ocr",                  "OCR 视觉推理，32K，0.2元/M"),
+            ("glm-4v-plus-0111",         "上一代视觉增强，16K"),
+            ("glm-4v-flash",             "上一代图像理解，4K，免费"),
         ]
     }
 }

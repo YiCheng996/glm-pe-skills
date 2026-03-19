@@ -16,8 +16,8 @@ _REFERENCE_MODELS = {
     "embedding": {
         "desc": "向量化模型",
         "models": [
-            ("embedding-3", "最新版，2048维，推荐"),
-            ("embedding-2", "上一代，1024维"),
+            ("embedding-3", "最新版，自定义维度（256/512/1024/2048），推荐"),
+            ("embedding-2", "上一代，固定维度"),
         ]
     }
 }

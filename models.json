@@ -1,65 +1,83 @@
 {
-  "_comment": "参考模型列表。以官网 https://open.bigmodel.cn/dev/api 为准，此文件定期人工同步。运行任意脚本 --list-models 可实时查询账号可用模型。",
+  "_comment": "参考模型列表（按官网定价页 https://open.bigmodel.cn/pricing 整理）。以官网为准，此文件定期人工同步。运行任意脚本 --list-models 可实时查询账号可用模型。",
   "_updated": "2026-03-19",
   "text": {
-    "description": "文本对话模型（glm-text-batch-test 使用）",
+    "description": "文本对话 / 推理模型（glm-text-batch-test 使用）",
     "models": [
-      {"id": "glm-4.7",        "note": "旗舰版"},
-      {"id": "glm-4.6",        "note": "旗舰版"},
-      {"id": "glm-4.5",        "note": "旗舰版"},
-      {"id": "glm-4.5-air",    "note": "轻量版"},
-      {"id": "glm-4.5-airx",   "note": "高速轻量版"},
-      {"id": "glm-4.5-flash",  "note": "免费版"},
-      {"id": "glm-4.5-x",      "note": "增强版"},
-      {"id": "glm-4-plus",     "note": "上一代旗舰"},
-      {"id": "glm-4-air",      "note": "上一代轻量"},
-      {"id": "glm-4-flash",    "note": "上一代免费版"},
-      {"id": "glm-4-long",     "note": "超长上下文"},
-      {"id": "glm-zero-preview","note": "推理模型预览版"}
+      {"id": "glm-5-turbo",           "note": "旗舰 Agent 模型，深度优化长链路任务"},
+      {"id": "glm-5",                 "note": "旗舰通用模型"},
+      {"id": "glm-4.7",               "note": "新旗舰，强推理"},
+      {"id": "glm-4.5",               "note": "旗舰版（API 实测可用）"},
+      {"id": "glm-4.5-air",           "note": "高性价比（API 实测可用）"},
+      {"id": "glm-4.7-flashx",        "note": "高速低价"},
+      {"id": "glm-4.7-flash",         "note": "免费"},
+      {"id": "glm-z1-air",            "note": "推理模型，高性价比"},
+      {"id": "glm-z1-airx",           "note": "推理模型，极速"},
+      {"id": "glm-z1-flashx",         "note": "推理模型，高速低价"},
+      {"id": "glm-z1-flash",          "note": "推理模型，免费"},
+      {"id": "glm-4-plus",            "note": "上一代旗舰，128K"},
+      {"id": "glm-4-air-250414",      "note": "上一代高性价比，128K"},
+      {"id": "glm-4-airx",            "note": "上一代极速，8K"},
+      {"id": "glm-4-long",            "note": "超长输入，1M 上下文"},
+      {"id": "glm-4-flashx-250414",   "note": "上一代高速低价，128K"},
+      {"id": "glm-4-flash-250414",    "note": "上一代免费，128K"},
+      {"id": "glm-4-assistant",       "note": "智能体专用"},
+      {"id": "glm-experimental-preview","note": "最新公测模型，3元/M tokens"}
     ]
   },
   "vision": {
-    "description": "图像理解模型（glm-image-understanding-test 使用）",
+    "description": "图像 / 视频理解模型（glm-image-understanding-test 使用）",
     "models": [
-      {"id": "glm-4.7v",              "note": "旗舰视觉版"},
-      {"id": "glm-4.6v",              "note": "旗舰视觉版"},
-      {"id": "glm-4.5v",              "note": "旗舰视觉版"},
-      {"id": "glm-4.1v-thinking-flash","note": "推理视觉版"},
-      {"id": "glm-4v-plus",           "note": "上一代增强"},
-      {"id": "glm-4v-plus-0111",      "note": "上一代增强"},
-      {"id": "glm-4v-flash",          "note": "上一代免费版"},
-      {"id": "glm-4v",                "note": "上一代标准版"},
-      {"id": "glm-edge-v-nano",       "note": "端侧轻量版"}
+      {"id": "glm-4.6v",                  "note": "旗舰视觉版，128K，支持图片+视频"},
+      {"id": "glm-4.6v-flashx",           "note": "轻量高速视觉版，128K，支持图片+视频"},
+      {"id": "glm-4.6v-flash",            "note": "免费视觉版，支持图片+视频"},
+      {"id": "glm-4.5v",                  "note": "上一代旗舰视觉版，64K，支持图片+视频"},
+      {"id": "glm-4.1v-thinking-flashx",  "note": "视觉推理，64K，2元/M"},
+      {"id": "glm-4.1v-thinking-flash",   "note": "视觉推理，64K，免费"},
+      {"id": "glm-ocr",                   "note": "OCR 视觉推理，32K，0.2元/M"},
+      {"id": "glm-4v-plus-0111",          "note": "上一代视觉增强，16K"},
+      {"id": "glm-4v-flash",              "note": "上一代图像理解，4K，免费"}
     ]
   },
   "video_understanding": {
-    "description": "视频理解模型（glm-video-understanding-test 使用）",
+    "description": "视频理解模型（glm-video-understanding-test 使用，均属视觉模型）",
     "models": [
-      {"id": "glm-4.6v",       "note": "旗舰版（106B），精度最高"},
-      {"id": "glm-4.6v-flashx","note": "轻量高速版（9B），日常首选"},
-      {"id": "glm-4.6v-flash", "note": "完全免费版"}
+      {"id": "glm-4.6v",       "note": "旗舰版，128K，精度最高"},
+      {"id": "glm-4.6v-flashx","note": "轻量高速版，128K，日常首选"},
+      {"id": "glm-4.6v-flash", "note": "免费版"},
+      {"id": "glm-4.5v",       "note": "上一代旗舰，64K"},
+      {"id": "glm-4.1v-thinking-flash","note": "视觉推理，64K，免费"}
     ]
   },
   "embedding": {
     "description": "向量化模型（glm-embedding-test 使用）",
     "models": [
-      {"id": "embedding-3", "note": "最新版，2048维，推荐"},
-      {"id": "embedding-2", "note": "上一代，1024维"}
+      {"id": "embedding-3", "note": "最新版，2048维可调（256/512/1024/2048），推荐"},
+      {"id": "embedding-2", "note": "上一代，固定维度"}
     ]
   },
   "image_generation": {
     "description": "文生图模型（glm-content-generation t2i 使用）",
     "models": [
-      {"id": "cogview-3-plus",  "note": "旗舰版，质量最高"},
-      {"id": "cogview-3",       "note": "标准版"},
-      {"id": "cogview-3-flash", "note": "高速版"}
+      {"id": "glm-image",       "note": "最新文生图，0.1元/次"},
+      {"id": "cogview-4",       "note": "CogView 新旗舰，0.06元/次"},
+      {"id": "cogview-3-flash", "note": "免费版"},
+      {"id": "cogview-3-plus",  "note": "上一代旗舰（历史版本）"},
+      {"id": "cogview-3",       "note": "上一代标准版（历史版本）"}
     ]
   },
   "video_generation": {
     "description": "视频生成模型（glm-content-generation i2v/t2v 使用）",
     "models": [
-      {"id": "cogvideox",       "note": "标准版"},
-      {"id": "cogvideox-flash", "note": "高速版，推荐"}
+      {"id": "cogvideox-3",         "note": "最新视频生成，1元/次"},
+      {"id": "cogvideox-2",         "note": "标准版，0.5元/次"},
+      {"id": "cogvideox-flash",     "note": "免费版"},
+      {"id": "viduq1-text",         "note": "Vidu Q1 文生视频，1080p，2.5元/次"},
+      {"id": "viduq1-image",        "note": "Vidu Q1 图生视频，1080p，2.5元/次"},
+      {"id": "viduq1-start-end",    "note": "Vidu Q1 首尾帧，1080p，2.5元/次"},
+      {"id": "vidu2-image",         "note": "Vidu 2 图生视频，720p，1.25元/次"},
+      {"id": "vidu2-start-end",     "note": "Vidu 2 首尾帧，720p，1.25元/次"},
+      {"id": "vidu2-reference",     "note": "Vidu 2 参考生视频，720p，2.5元/次"}
     ]
   }
 }
