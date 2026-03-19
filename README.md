@@ -28,10 +28,10 @@ curl -fsSL https://raw.githubusercontent.com/YiCheng996/glm-pe-skills/main/insta
 | Skill | 状态 | 触发词 / 使用场景 |
 |-------|:----:|-----------------|
 | [glm-video-understanding-test](skills/glm-video-understanding-test/) | ✅ 已发布 | 视频理解测评、批量分析视频、glm-4.6v 视频 |
-| [glm-text-batch-test](skills/glm-text-batch-test/) | 🚧 开发中 | 文本批量测试、Excel 批量调用、多模型对比 |
-| [glm-image-understanding-test](skills/glm-image-understanding-test/) | 🚧 开发中 | 图生文、批量图片理解、GLM-4V 评测 |
-| [glm-embedding-test](skills/glm-embedding-test/) | 🚧 开发中 | Embedding 评测、余弦相似度、向量化 |
-| [glm-content-generation](skills/glm-content-generation/) | 🚧 开发中 | 文生图、图生视频、CogView、CogVideoX |
+| [glm-text-batch-test](skills/glm-text-batch-test/) | ✅ 已发布 | 文本批量测试、Excel 批量调用、{列名}变量替换、多线程 |
+| [glm-image-understanding-test](skills/glm-image-understanding-test/) | ✅ 已发布 | 图生文、批量图片理解、GLM-4V 系列评测 |
+| [glm-embedding-test](skills/glm-embedding-test/) | ✅ 已发布 | Embedding 评测、余弦相似度矩阵、向量化 |
+| [glm-content-generation](skills/glm-content-generation/) | ✅ 已发布 | 文生图(CogView)、图生视频、文生视频(CogVideoX) |
 
 ---
 
