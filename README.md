@@ -57,6 +57,7 @@ SKILLS="glm-video-understanding-test glm-text-batch-test" \
 
 | Skill | 状态 | 触发词 / 使用场景 |
 |-------|:----:|-----------------|
+| [glm-agent-test](skills/glm-agent-test/) | ✅ 已发布 | 测试智能体、智能体测评、批量测智能体、bigmodel 应用测试 / test bigmodel agent, batch agent evaluation |
 | [glm-video-understanding-test](skills/glm-video-understanding-test/) | ✅ 已发布 | 视频理解测评、批量分析视频、glm-4.6v 视频 / batch video analysis |
 | [glm-text-batch-test](skills/glm-text-batch-test/) | ✅ 已发布 | 文本批量测试、Excel 批量调用、多列变量替换 / batch text test |
 | [glm-image-understanding-test](skills/glm-image-understanding-test/) | ✅ 已发布 | 图生文、批量图片理解、GLM-4V 评测 / batch image analysis |
@@ -101,6 +102,12 @@ batch image analysis:
 ```
 
 Agent 会自动选择匹配的 Skill 并执行。
+
+```
+测试智能体：
+  批量测 bigmodel 上的图片巡课智能体，
+  app-id=1958...，图片目录 /path/to/frames，每3张一组
+```
 
 ---
 
