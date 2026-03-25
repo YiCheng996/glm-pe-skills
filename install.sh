@@ -79,6 +79,7 @@ fi
 
 # ── Skill 列表 ───────────────────────────────────────────────────────────────
 ALL_SKILLS=(
+  "glm-agent-test"
   "glm-video-understanding-test"
   "glm-text-batch-test"
   "glm-image-understanding-test"
